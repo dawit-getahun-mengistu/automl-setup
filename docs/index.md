@@ -15,7 +15,7 @@ The AutoML Platform is a comprehensive solution aimed at simplifying the complex
 
 ## Key Features
 
-1. **High Performance**: Built with low-level programming (C++/Go) for core processes to ensure speed and efficiency.
+1. **High Performance**: Built with speed and efficiency in mind.
 2. **Scalable Design**: Supports deployment on distributed systems, allowing for parallel processing of tasks.
 3. **Customizability**: While automated, users retain the ability to override and tweak key steps to suit specific needs.
 4. **Seamless Integration**: Designed to work seamlessly with common data storage solutions, cloud platforms, and APIs.
