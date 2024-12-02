@@ -29,4 +29,4 @@ Traditional machine learning pipelines can be time-consuming and error-prone. Th
 
 This documentation is organized to guide you through every aspect of the platform:
 
-1. [Project Layout](''): Understand how we structure the codebase of our platform.
+1. [Project Layout](project_layout): Understand how we structure the codebase of our platform.
