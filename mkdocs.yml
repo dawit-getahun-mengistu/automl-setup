@@ -1,1 +1,25 @@
-site_name: My Docs
+site_name: AutoML Documentation
+repo_url: https://github.com/WildCayote/AutoML
+theme:
+  name: material
+  language: en
+  icon:
+    - repo: fontawesome/brands/git-alt
+  features:
+    - navigation.instant
+    - navigation.top
+    - navigation.expand
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+      primary: teal
+      accent: purple
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+      primary: teal
+      accent: lime
+copyright: Copyright &copy; 2024 AutoML Platform Team – Dawit Getahun Mengistu, Mariam Yohannes Gustavo, Metsakal Zeleke Eneyew, Naol Taye, Tinsae Shemalise Yared - All rights reserved.
