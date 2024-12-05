@@ -1,6 +1,6 @@
 {
   "name": "seaweeds3client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A NestJS package for interacting with SeaweedFS S3 API. It wraps the aws-sdk module and is geared towards our AutoML Platform",
   "main": "index.ts",
   "scripts": {
