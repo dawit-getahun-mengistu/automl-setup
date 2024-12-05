@@ -4,7 +4,8 @@
   "description": "A NestJS package for interacting with SeaweedFS S3 API. It wraps the aws-sdk module and is geared towards our AutoML Platform",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc"
   },
   "repository": {
     "type": "git",
