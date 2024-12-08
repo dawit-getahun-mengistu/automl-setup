@@ -1,1 +1,0 @@
-{"version":3,"file":"nestrand.module.d.ts","sourceRoot":"","sources":["../src/nestrand.module.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAU,MAAM,gBAAgB,CAAC;AAEvD,OAAO,EAAE,0BAA0B,EAAE,MAAM,4CAA4C,CAAC;AAExF,qBACa,cAAc;IACzB,MAAM,CAAC,OAAO,CAAC,OAAO,EAAE,OAAO,CAAC,0BAA0B,CAAC,GAAG,aAAa;CAc5E"}

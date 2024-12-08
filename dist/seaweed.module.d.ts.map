@@ -1,0 +1,1 @@
+{"version":3,"file":"seaweed.module.d.ts","sourceRoot":"","sources":["../src/seaweed.module.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAU,MAAM,gBAAgB,CAAC;AACvD,OAAO,EAAE,cAAc,EAAE,MAAM,qCAAqC,CAAC;AAGrE,qBACa,aAAa;IACxB,MAAM,CAAC,OAAO,CAAC,OAAO,EAAE,cAAc,GAAG,aAAa;CAcvD"}

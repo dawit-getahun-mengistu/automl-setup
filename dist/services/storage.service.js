@@ -9,19 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageService = void 0;
 const common_1 = require("@nestjs/common");
-const random_number_service_options_1 = require("../interfaces/random-number-service-options");
-let RandomNumberService = class RandomNumberService {
+let StorageService = class StorageService {
     constructor(options) {
-        this.options = Object.assign({}, random_number_service_options_1.defaultRandomNumberServiceOptions, options);
+        this.options = options;
+        this.createConnection();
     }
-    generate() {
-        const range = this.options.max - this.options.min;
-        return this.options.min + Math.floor(Math.random() * range);
+    createConnection() {
+        console.log(this.options);
     }
 };
-RandomNumberService = __decorate([
+exports.StorageService = StorageService;
+exports.StorageService = StorageService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [Object])
-], RandomNumberService);
-//# sourceMappingURL=random-number.service.js.map
+], StorageService);
+//# sourceMappingURL=storage.service.js.map

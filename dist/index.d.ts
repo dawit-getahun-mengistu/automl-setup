@@ -1,5 +1,5 @@
-import { NestrandModule } from "./nestrand.module";
-import { RandomNumberService } from "./services/random-number.service";
-import { RandomNumberServiceOptions } from "./interfaces/random-number-service-options";
-export { NestrandModule, RandomNumberService, RandomNumberServiceOptions };
+import { SeaweedModule } from "./seaweed.module";
+import { StorageService } from "./services/storage.service";
+import { SeaweedOptions } from "./interfaces/seaweed-module-options";
+export { SeaweedModule, StorageService, SeaweedOptions };
 //# sourceMappingURL=index.d.ts.map

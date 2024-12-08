@@ -1,7 +1,2 @@
-import { RandomNumberServiceOptions } from "../interfaces/random-number-service-options";
-export declare class RandomNumberService {
-    private options;
-    constructor(options: Partial<RandomNumberServiceOptions>);
-    generate(): number;
-}
+export {};
 //# sourceMappingURL=random-number.service.d.ts.map

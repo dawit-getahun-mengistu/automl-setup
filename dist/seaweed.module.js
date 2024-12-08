@@ -5,28 +5,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var NestrandModule_1;
+var SeaweedModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NestrandModule = void 0;
+exports.SeaweedModule = void 0;
 const common_1 = require("@nestjs/common");
-const random_number_service_1 = require("./services/random-number.service");
-let NestrandModule = NestrandModule_1 = class NestrandModule {
+const storage_service_1 = require("./services/storage.service");
+let SeaweedModule = SeaweedModule_1 = class SeaweedModule {
     static forRoot(options) {
         const providers = [
             {
-                provide: random_number_service_1.RandomNumberService,
-                useValue: new random_number_service_1.RandomNumberService(options),
+                provide: storage_service_1.StorageService,
+                useValue: new storage_service_1.StorageService(options),
             },
         ];
         return {
             providers: providers,
             exports: providers,
-            module: NestrandModule_1,
+            module: SeaweedModule_1,
         };
     }
 };
-exports.NestrandModule = NestrandModule;
-exports.NestrandModule = NestrandModule = NestrandModule_1 = __decorate([
+exports.SeaweedModule = SeaweedModule;
+exports.SeaweedModule = SeaweedModule = SeaweedModule_1 = __decorate([
     (0, common_1.Module)({})
-], NestrandModule);
-//# sourceMappingURL=nestrand.module.js.map
+], SeaweedModule);
+//# sourceMappingURL=seaweed.module.js.map
