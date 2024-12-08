@@ -5,7 +5,7 @@ import {
 } from "../interfaces/random-number-service-options";
 
 @Injectable()
-export class RandomNumberService {
+class RandomNumberService {
   private options: RandomNumberServiceOptions;
 
   constructor(options: Partial<RandomNumberServiceOptions>) {

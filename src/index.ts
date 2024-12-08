@@ -1,5 +1,5 @@
-import { NestrandModule } from "./seaweed.module";
-import { RandomNumberService } from "./services/random-number.service";
-import { RandomNumberServiceOptions } from "./interfaces/random-number-service-options";
+import { SeaweedModule } from "./seaweed.module";
+import { StorageService } from "./services/storage.service";
+import { SeaweedOptions } from "./interfaces/seaweed-module-options";
 
-export { NestrandModule, RandomNumberService, RandomNumberServiceOptions };
+export { SeaweedModule, StorageService, SeaweedOptions };

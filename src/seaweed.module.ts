@@ -1,21 +1,21 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { RandomNumberService } from "./services/random-number.service";
-import { RandomNumberServiceOptions } from "./interfaces/random-number-service-options";
+import { SeaweedOptions } from "./interfaces/seaweed-module-options";
+import { StorageService } from "./services/storage.service";
 
 @Module({})
-export class NestrandModule {
-  static forRoot(options: Partial<RandomNumberServiceOptions>): DynamicModule {
+export class SeaweedModule {
+  static forRoot(options: SeaweedOptions): DynamicModule {
     const providers = [
       {
-        provide: RandomNumberService,
-        useValue: new RandomNumberService(options),
+        provide: StorageService,
+        useValue: new StorageService(options),
       },
     ];
 
     return {
       providers: providers,
       exports: providers,
-      module: NestrandModule,
+      module: SeaweedModule,
     };
   }
 }
