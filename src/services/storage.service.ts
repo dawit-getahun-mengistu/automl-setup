@@ -27,6 +27,7 @@ export class StorageService {
         secretAccessKey: this.options.secret_key,
       },
       endpoint: this.options.s3_endpoint,
+      region: "NONE",
     });
   }
 
