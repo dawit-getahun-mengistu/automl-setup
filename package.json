@@ -19,6 +19,7 @@
   "homepage": "https://github.com/WildCayote/SeaweedS3ClientNPM#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.705.0",
+    "@aws-sdk/s3-request-presigner": "^3.705.0",
     "@nestjs/common": "^10.4.13",
     "rxjs": "^7.8.1"
   },
