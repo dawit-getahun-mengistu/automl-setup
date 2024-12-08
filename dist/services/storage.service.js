@@ -11,13 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StorageService = void 0;
 const common_1 = require("@nestjs/common");
+const client_s3_1 = require("@aws-sdk/client-s3");
 let StorageService = class StorageService {
     constructor(options) {
         this.options = options;
         this.createConnection();
+        console.log(this.client);
     }
     createConnection() {
-        console.log(this.options);
+        this.client = new client_s3_1.S3Client({
+            credentials: {
+                accessKeyId: this.options.access_key,
+                secretAccessKey: this.options.secret_key,
+            },
+            endpoint: this.options.s3_endpoint,
+        });
     }
 };
 exports.StorageService = StorageService;
