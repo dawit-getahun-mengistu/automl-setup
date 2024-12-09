@@ -8,13 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StorageService = void 0;
 const common_1 = require("@nestjs/common");
@@ -26,97 +19,88 @@ let StorageService = class StorageService {
         this.createConnection();
     }
     createConnection() {
-        this.client = new client_s3_1.S3Client({
+        this.client = new client_s3_1.S3({
             credentials: {
                 accessKeyId: this.options.access_key,
                 secretAccessKey: this.options.secret_key,
             },
             endpoint: this.options.s3_endpoint,
-            region: "NONE",
+            region: "us-east-1",
             logger: console,
+            forcePathStyle: true,
         });
     }
     async listBuckets() {
         try {
-            const command = new client_s3_1.ListBucketsCommand({});
-            const response = await this.client.send(command);
+            const response = await this.client.listBuckets();
             return response.Buckets;
         }
         catch (error) {
-            throw new Error(`Failed to list buckets: ${error}`);
+            console.error(`Error listing buckets: ${error}`);
+            throw error;
         }
     }
     async createBucket(bucketName) {
-        const command = new client_s3_1.CreateBucketCommand({ Bucket: bucketName });
-        await this.client.send(command);
-        return true;
+        try {
+            const response = await this.client.createBucket({
+                Bucket: bucketName,
+            });
+            return response;
+        }
+        catch (error) {
+            console.log(`Error creating bucket ${bucketName}: ${error}`);
+            throw error;
+        }
     }
     async deleteBucket(bucketName) {
         try {
-            const command = new client_s3_1.DeleteBucketCommand({ Bucket: bucketName });
-            await this.client.send(command);
-            return true;
+            const response = await this.client.deleteBucket({ Bucket: bucketName });
+            return response;
         }
         catch (error) {
-            throw new Error(`Failed to delete bucket: ${error}`);
+            console.error(`Error deleting bucket ${bucketName}:`, error);
+            throw error;
         }
     }
     async uploadFile(bucketName, objectName, file) {
         try {
-            const command = new client_s3_1.PutObjectCommand({
+            const response = await this.client.putObject({
                 Bucket: bucketName,
                 Key: objectName,
                 Body: file,
             });
-            await this.client.send(command);
-            return `s3://${bucketName}/${objectName}`;
+            return response;
         }
         catch (error) {
-            throw new Error(`Failed to upload file: ${error}`);
+            console.error(`Error uploading file ${objectName} to bucket ${bucketName}:`, error);
+            throw error;
         }
     }
     async deleteObject(bucketName, objectName) {
         try {
-            const command = new client_s3_1.DeleteObjectCommand({
+            const response = await this.client.deleteObject({
                 Bucket: bucketName,
                 Key: objectName,
             });
-            await this.client.send(command);
-            return true;
+            return response;
         }
         catch (error) {
-            throw new Error(`Failed to delete object: ${error}`);
+            console.error(`Error deleting object ${objectName} from bucket ${bucketName}:`, error);
+            throw error;
         }
     }
     async downloadObject(bucketName, objectName) {
-        var _a, e_1, _b, _c;
         try {
-            const command = new client_s3_1.GetObjectCommand({
+            const response = await this.client.getObject({
                 Bucket: bucketName,
                 Key: objectName,
             });
-            const response = await this.client.send(command);
-            const stream = response.Body;
-            const chunks = [];
-            try {
-                for (var _d = true, stream_1 = __asyncValues(stream), stream_1_1; stream_1_1 = await stream_1.next(), _a = stream_1_1.done, !_a; _d = true) {
-                    _c = stream_1_1.value;
-                    _d = false;
-                    const chunk = _c;
-                    chunks.push(chunk);
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (!_d && !_a && (_b = stream_1.return)) await _b.call(stream_1);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            return Buffer.concat(chunks);
+            // Return the Readable stream
+            return response.Body;
         }
         catch (error) {
-            throw new Error(`Failed to download object: ${error}`);
+            console.error(`Error downloading object ${objectName} from bucket ${bucketName}:`, error);
+            throw error;
         }
     }
     async getPresignedDownloadUrl(bucketName, objectName, expiresIn = 3600) {
@@ -125,10 +109,12 @@ let StorageService = class StorageService {
                 Bucket: bucketName,
                 Key: objectName,
             });
-            return await (0, s3_request_presigner_1.getSignedUrl)(this.client, command, { expiresIn });
+            const url = await (0, s3_request_presigner_1.getSignedUrl)(this.client, command, { expiresIn });
+            return url;
         }
         catch (error) {
-            throw new Error(`Failed to generate presigned download URL: ${error}`);
+            console.error(`Error generating presigned download URL for ${objectName}:`, error);
+            throw error;
         }
     }
     async getPresignedUploadUrl(bucketName, objectName, expiresIn = 3600) {
@@ -137,14 +123,12 @@ let StorageService = class StorageService {
                 Bucket: bucketName,
                 Key: objectName,
             });
-            const response = await await (0, s3_request_presigner_1.getSignedUrl)(this.client, command, {
-                expiresIn: expiresIn,
-                signingDate: new Date(),
-            });
-            return response;
+            const url = await (0, s3_request_presigner_1.getSignedUrl)(this.client, command, { expiresIn });
+            return url;
         }
         catch (error) {
-            throw new Error(`Failed to generate presigned upload URL: ${error}`);
+            console.error(`Error generating presigned upload URL for ${objectName}:`, error);
+            throw error;
         }
     }
 };
