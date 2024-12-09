@@ -33,6 +33,7 @@ let StorageService = class StorageService {
             },
             endpoint: this.options.s3_endpoint,
             region: "NONE",
+            logger: console,
         });
     }
     async listBuckets() {
