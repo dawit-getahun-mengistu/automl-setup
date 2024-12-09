@@ -42,13 +42,9 @@ export class StorageService {
   }
 
   async createBucket(bucketName: string) {
-    try {
-      const command = new CreateBucketCommand({ Bucket: bucketName });
-      await this.client.send(command);
-      return true;
-    } catch (error) {
-      throw new Error(`Failed to create bucket: ${error}`);
-    }
+    const command = new CreateBucketCommand({ Bucket: bucketName });
+    await this.client.send(command);
+    return true;
   }
 
   async deleteBucket(bucketName: string) {

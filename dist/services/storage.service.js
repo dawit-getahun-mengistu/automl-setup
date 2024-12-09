@@ -46,14 +46,9 @@ let StorageService = class StorageService {
         }
     }
     async createBucket(bucketName) {
-        try {
-            const command = new client_s3_1.CreateBucketCommand({ Bucket: bucketName });
-            await this.client.send(command);
-            return true;
-        }
-        catch (error) {
-            throw new Error(`Failed to create bucket: ${error}`);
-        }
+        const command = new client_s3_1.CreateBucketCommand({ Bucket: bucketName });
+        await this.client.send(command);
+        return true;
     }
     async deleteBucket(bucketName) {
         try {
