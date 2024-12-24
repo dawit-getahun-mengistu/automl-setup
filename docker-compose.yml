@@ -1,0 +1,132 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgis/postgis
+    container_name: postgres_db
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # PgAdmin for managing PostgreSQL
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - 8001:80
+    env_file:
+      - .env
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server kafka:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Feature Engineering Service
+  data-service:
+    build:
+      context: ./apps/be/data_service
+      dockerfile: Dockerfile
+    container_name: data-service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      KAFKA_BROKER_URL: kafka:9092
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./apps/be/data_service:/usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  # Training Service
+  nas-service:
+    build:
+      context: ./apps/be/nas_service
+      dockerfile: Dockerfile
+    container_name: nas-service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      KAFKA_BROKER_URL: kafka:9092
+    ports:
+      - "8003:8000"
+    volumes:
+      - ./apps/be/nas_service:/usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  # API Service (NestJS)
+  api_service:
+    build:
+      context: ./apps/be/api
+      dockerfile: Dockerfile
+    container_name: api_service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      KAFKA_BROKER_URL: kafka:9092
+    ports:
+      - "8004:3000"
+    volumes:
+      - ./apps/be/api:/usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./apps/fe/main-page
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/fe/main-page:/usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  pgadmin_data:

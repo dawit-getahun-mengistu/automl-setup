@@ -1,0 +1,24 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Build and static files
+.next
+out
+
+# Miscellaneous
+.cache
+coverage
